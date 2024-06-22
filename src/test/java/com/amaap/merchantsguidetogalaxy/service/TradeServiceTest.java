@@ -2,8 +2,10 @@ package com.amaap.merchantsguidetogalaxy.service;
 
 import com.amaap.merchantsguidetogalaxy.service.exception.EmptyFilePathException;
 import com.amaap.merchantsguidetogalaxy.service.io.FileReader;
-import com.amaap.merchantsguidetogalaxy.service.io.exception.NoDataFoundException;
+import com.amaap.merchantsguidetogalaxy.service.io.exception.DataNotFoundException;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.FileSystemException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +13,7 @@ class TradeServiceTest {
 
  private FileReader fileReader=new FileReader();
     @Test
-    void shouldBeAbleToReturnTrueIfFileReadingServiceGotTriggered() throws NoDataFoundException, EmptyFilePathException {
+    void shouldBeAbleToReturnTrueIfFileReadingServiceGotTriggered() throws DataNotFoundException, EmptyFilePathException, FileSystemException {
         // arrange
         TradeService tradeService=new TradeService(fileReader);
         String path="D:\\MerchantsGuideToGalaxy\\src\\main\\resources\\Tradedata.txt";
@@ -22,6 +24,8 @@ class TradeServiceTest {
 
         // assert
         assertEquals(expected,actual);
+
+        assertEquals(12,tradeService.getFileData().size());
     }
 
     @Test
@@ -36,5 +40,6 @@ class TradeServiceTest {
             tradeService.calculateTrade(path);
         });
     }
+
 
 }
